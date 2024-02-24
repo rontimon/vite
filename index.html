@@ -12,13 +12,52 @@
 
     <h3>Tehtävä 1</h3>
     
-    <button class="chuck">Get joke</button>
+    <button class="chuck">Hae vitsi</button>
 
-    <div class="show_joke">Ready for a joke?</div>    
+    <button class="toinen">Hae toinen vitsi</button>
+
+    <!-- <button class="pics">Hae kuvat</button> -->
+
+    <div class="show_joke">Ready for a joke?</div>
+    
+    <h3>Kissakuvat</h3>
+
+    <figure>
+      <img src="http://placekitten.com/421/251" alt="Kissakuva">
+      <figcaption>Kissa</figcaption>
+  </figure>
+
+<!-- Alle tulee generoidut kissakuvat -->
+
+  <div id="cards">
+    
+  </div>
+
+    <button class="pics">Hae kissakuvat</button>
 
     <script type="module" src="/main.js"></script>
     <!-- <script type="module" src="/test.js"></script> -->
-    <script type="module" src="/chucknorris.js"></script>
+    <!-- <script type="module" src="/chucknorris.js"></script> -->
     <!-- Lisää testaus js tiedotso -->
+
+    <h3>3. Flexboxilla tehty kortti - Staattinen tieto</h3>
+
+    <section class="kortti-area">
+      <!-- yksittäinen kortti -->
+      <div class="kortti">
+        <!-- vasen puoli jossa kuva -->
+        <div class="kortti-img">
+          <img id="gympic" src="images/gym.jpeg" width="136" alt="Gym" />
+        </div>
+        <!-- oikea puoli jossa päiväkirjamerkintä-->
+        <div class="kortti">
+          <h3>Päiväkirjamerkinnät</h3>
+          <button class="diary">Hae päiväkirjamerkinnät</button>
+        </div>
+      </div>
+    </section>
+
+    <script type="module" src="/diaryentries.js"></script>
+    
   </body>
 </html>

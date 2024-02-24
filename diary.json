@@ -1,0 +1,17 @@
+[
+    {
+        "date": "1.1.2024",
+        "description": "Tänään oli hyvä päivä. HRV mittaus näytti hyvää palautumista.",
+        "image": "images/gym.jpeg"
+    },
+    {
+        "date": "2.1.2024",
+        "description": "Tänään oli rankka treenipäivä. Jalat tuntuvat raskailta.",
+        "image": "images/gym.jpeg"
+    },
+    {
+        "date": "25.2.2024",
+        "description": "Tänään oli lepopäivä, ja yritin tehdä tämän kotitehtävän parhaani mukaan, vaikka haastavaa se oli.",
+        "image": "images/gym.jpeg"
+    }
+]

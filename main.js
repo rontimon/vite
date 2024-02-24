@@ -3,10 +3,32 @@ import './minunstyle.css'
 import javascriptLogo from './javascript.svg'
 import viteLogo from '/vite.svg'
 import { setupCounter } from './counter.js'
+import { showjoke } from './joke.js';
+import { showcats } from './cats.js';
+import { showDiaryEntries } from './diaryentries.js';
+// import { showcards } from './cards.js';
 
 document.querySelector('#app').innerHTML = 'Moi täällä ollaan!'
 
-setupCounter(document.querySelector('button'))
+// heataan nappula ja tarjotaan showjoke funktiolle.
+let element = document.querySelector('.chuck');
+console.log(element);
+
+showjoke(element);
+
+showjoke(document.querySelector('.toinen'));
+
+showcats(document.querySelector('.pics'));
+
+const diaryButton = document.querySelector('.diary'); 
+diaryButton.addEventListener('click', showDiaryEntries);
+
+// showjoke(document.querySelector('.pics'));
+
+// setupCounter(document.querySelector('button'));
+// setupCounter(document.querySelector('button2'));
+// setupCounter(document.querySelector('button3'));
+
 // `
 //   <div>
 //     <a href="https://vitejs.dev" target="_blank">

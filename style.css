@@ -106,7 +106,7 @@ button:focus-visible {
   color: #333;
 }
 
-.chuck {
+/* .chuck {
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
@@ -114,9 +114,102 @@ button:focus-visible {
   color: white;
   cursor: pointer;
   font-family: Arial, sans-serif;
-}
+} */
 
-.chuck:hover {
+/* .chuck:hover {
   background-color: #0056b3;
+} */
+
+#cards {
+  min-height: 40px;
+  
 }
 
+figurecaption {
+  display: block;
+  background-color: greenyellow;
+}
+
+/* Kortti CSS */
+
+.kortti-area {
+  display: flex;
+  flex-wrap: wrap; /* Mahdollistaa korttien siirtymisen seuraavalle riville */
+  gap: 20px; /* Väli korttien välillä */
+  justify-content: flex-start; /* Asettaa kortit tasaisesti vasemmalta alkaen */
+  align-items: flex-start; /* Asettaa kortit yläreunaan linjaan, jos ne ovat eri korkeuksia */
+}
+
+.kortti {
+  display: flex;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 20px; /* Lisää tilaa korttien välille vertikaalisesti */
+  width: calc(50% - 20px); /* Asettaa kortin leveyden kahden kortin leveydeksi sisältäen gapin */
+  max-width: 500px; /* Maksimileveys kortille */
+}
+
+.kortti-img {
+  flex: 0 0 200px; /* Kuvan leveys on kiinteä ja vastaa alkuperäisen kuvan leveyttä */
+  overflow: hidden; /* Estää kuvan ulottumisen yli kortin reunojen */
+}
+
+.kortti-img img {
+  display: block;
+  width: 300px;
+}
+
+.card-diary {
+  padding-left: 20px;
+}
+
+.kortti > .kortti {
+  flex: 1; 
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Tasainen tila sisällön välillä */
+}
+
+.kortti > .kortti h3 {
+  margin: 0;
+  color: #333;
+  font-size: 1.25rem; /* Säädä otsikon fonttikokoa tarpeen mukaan */
+}
+
+.kortti > .kortti p {
+  color: #666;
+  flex-grow: 1; /* Antaa kuvaukselle tilaa kasvaa */
+}
+
+.btn-read-more {
+  align-self: flex-start;
+  padding: 10px 15px;
+  background-color: #009879; /* Palautetaan alkuperäinen taustaväri */
+  color: white; /* Tekstin väri */
+  text-decoration: none; /* Poistaa linkin alleviivauksen */
+  border-radius: 5px; /* Pyöristää reunat */
+}
+
+.btn-read-more:hover {
+  background-color: #007b5f;
+}
+
+/* Responsiivisuus: Kortit menevät allekkain pienemmällä näytöllä */
+@media (max-width: 1100px) {
+  .kortti {
+    width: 100%; /* Kortit ottavat koko leveyden pienemmässä näytössä */
+    max-width: none; /* Poistaa maksimileveyden pienemmässä näytössä */
+  }
+
+  .kortti-img {
+    width: 100%; /* Kuvan leveys on 100% kortin leveydestä */
+  }
+}
+
+
+#gympic {
+  display: block;
+  width: 200px;
+}

@@ -1,0 +1,17 @@
+[
+    {
+      "name": "Sleeping cat",
+      "description": "In this picture the cat is doing what cats do.",
+      "address": "http://placekitten.com/321/241"
+    },
+    {
+      "name": "Playing cat",
+      "description": "In this picture the cat is doing what cats do.",
+      "address": "http://placekitten.com/421/253"
+    },
+    {
+      "name": "Eating cat",
+      "description": "In this picture the cat is doing what cats do.",
+      "address": "http://placekitten.com/421/254"
+    }
+]

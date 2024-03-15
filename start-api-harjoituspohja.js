@@ -93,8 +93,39 @@ function createTable(data) {
   });
 }
 
-function getUser() {
-  console.log("Haet tietoa");
+// Haetaan dialogi yksittäisille tiedoille
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog
+const dialog = document.querySelector('.info_dialog');
+const closeButton = document.querySelector('.info_dialog button');
+// "Close" button closes the dialog
+closeButton.addEventListener('click', () => {
+  dialog.close();
+});
+
+async function getUser(evt) {
+  // haetaan data-attribuutin avulla id, tämä nopea tapa
+  const id = evt.target.attributes['data-id'].value;
+  console.log('Getting individual data for ID:', id);
+  const url = `http://127.0.0.1:3000/api/users/${id}`;
+  let token = localStorage.getItem('token');
+  const options = {
+    method: 'GET',
+    headers: {
+      Authorization: 'Bearer: ' + token,
+    },
+  };
+  fetchData(url, options).then((data) => {
+    console.log(data);
+    // Avaa modaali
+    dialog.showModal();
+    console.log('in modal');
+    dialog.querySelector('p').innerHTML = `
+          <div>User ID: <span>${data.user_id}</span></div>
+          <div>User Name: <span>${data.username}</span></div>
+          <div>Email: <span>${data.email}</span></div>
+          <div>Role: <span>${data.user_level}</span></div>
+    `;
+  });
 }
 
 async function deleteUser(evt) {
@@ -160,50 +191,63 @@ showUserName();
 
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.getElementById('user-form');
-  const updateUserButton = document.getElementById('update-user');
-  const token = localStorage.getItem("token");
-  const userId = localStorage.getItem("id");
+  const updateUser = document.getElementById('update-user');
 
-  fetch(`http://127.0.0.1:3000/api/users/${userId}`, {
-    method: 'GET',
-    headers: {
-      'Authorization': `Bearer ${token}`,
-    },
-  })
-  .then(response => response.json())
-  .then(user => {
-    form.username.value = user.username || '';
-    form.email.value = user.email || '';
-  })
-  .catch(error => {
-    console.error('Error fetching user data:', error);
-  });
+  updateUser.addEventListener("click", async function (event) {
+    event.preventDefault();
+    const userId = localStorage.getItem("id");
 
-  updateUserButton.addEventListener('click', function() {
-    const userData = {
-      username: form.username.value,
-      password: form.password.value,
-      email: form.email.value,
-      user_id: userId
-    };
-    console.log('userdata',  userData);
-
-    fetch('http://localhost:3000/api/users/', {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
-      },
-      body: JSON.stringify(userData),
-    })
-    .then(response => response.json())
-    .then(data => {
-      console.log('User updated:', data);
-      alert('User updated successfully!');
-    })
-    .catch(error => {
-      console.error('Error updating user:', error);
-      alert('Failed to update user.');
+    const formData = new FormData(form);
+    console.log(formData);
+    const userData = {};
+    formData.forEach((value, key) => {
+      userData[key] = value;
     });
+
+    userData["user_id"] = userId;
+
+    try {
+      const url = `http://localhost:3000/api/users/`;
+      console.log("Request URL:", url);
+      const token = localStorage.getItem("token");
+      console.log("Token:", token);
+      const options = {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          username: userData["username"],
+          password: userData["password"],
+          email: userData["email"],
+          user_id: userId,
+        }),
+      };
+      console.log(options);
+      const response = await fetch(url, options);
+      console.log(response)
+      const responseData = await response.json();
+      console.log(responseData);
+
+      if (!response.ok) {
+        throw new Error(responseData.message || "Failed to update user data");
+      }
+      alert("User data updated successfully!");
+    } catch (error) {
+      console.error("Error updating user data:", error);
+      alert("Failed to update user data. Please try again.");
+    }
   });
 });
+
+document.querySelector('.logout').addEventListener('click', logOut);
+
+function logOut(evt) {
+  evt.preventDefault();
+  localStorage.removeItem('token');
+  console.log('logginout');
+  window.location.href = 'index.html';
+}
+ 
+

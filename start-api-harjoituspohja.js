@@ -1,126 +1,209 @@
-import './style.css';
-import { fetchData } from './fetch.js';
+import "./styles1.css";
+import { fetchData } from "./fetch.js";
 
-document.addEventListener('DOMContentLoaded', () => {
-  attachEventListeners();
-  showUserName();
-  getUsers();
+const bt1 = document.querySelector(".get_entry");
+bt1.addEventListener("click", async () => {
+  console.log("klikki toimii");
+
+  // # Get entries by id
+  // GET http://localhost:3000/api/entries/:id
+  const url = "http://localhost:3000/api/entries/1";
+
+  fetchData(url).then((data) => {
+    // käsitellään fetchData funktiosta tullut JSON
+    console.log(data);
+  });
 });
 
-function attachEventListeners() {
-  document.querySelector('.get_users').addEventListener('click', getUsers);
-
-  document.querySelector('.tbody').addEventListener('click', function(event) {
-    const target = event.target;
-    if (target.classList.contains('check')) {
-      const userId = target.getAttribute('data-id');
-      openEditModal(userId);
-    } else if (target.classList.contains('del')) {
-      const userId = target.getAttribute('data-id');
-      deleteUser(userId);
-    }
-  });
-
-  document.getElementById('editUserForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-    updateUserData();
-  });
-
-  document.getElementById('closeModal').addEventListener('click', function() {
-    document.getElementById('editUserModal').close();
-  });
-}
+// haetaan kaikki käyttäjät ja luodaan niistä taulukko
+// 1.hae ensin nappula ja kutsu funktiota
+const allButton = document.querySelector(".get_users");
+allButton.addEventListener("click", getUsers);
 
 async function getUsers() {
-  const url = 'http://localhost:3000/api/users';
-  const token = localStorage.getItem('token');
+  console.log("Haetaan kaikki käyttäjät");
+  const url = "http://localhost:3000/api/users";
+  let token = localStorage.getItem('token');
+  console.log("Tämä on haettu LocalStoragesta", token);
+
   const options = {
-    method: 'GET',
+    method: "GET",
     headers: {
-      'Authorization': 'Bearer ' + token,
+      Authorization: "Bearer: " + token,
     },
   };
-
-  const data = await fetchData(url, options);
-  createTable(data);
+  fetchData(url, options).then((data) => {
+    createTable(data);
+  });
 }
 
 function createTable(data) {
-  const tbody = document.querySelector('.tbody');
-  tbody.innerHTML = '';
-  data.forEach(user => {
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>${user.username}</td>
-      <td>${user.user_level}</td>
-      <td><button class="check" data-id="${user.user_id}">Info</button></td>
-      <td><button class="del" data-id="${user.user_id}">Delete</button></td>
-      <td>${user.user_id}</td>
-    `;
+  console.log(data);
+
+  // etsitään tbody elementti
+  const tbody = document.querySelector(".tbody");
+  tbody.innerHTML ='';
+
+  // luodaan loopissa jokaiselle tietoriville oikeat elementit
+  // elementtien sisään pistetään oikeat tiedot
+  data.forEach((element) => {
+    console.log(element.user_id, element.username, element.user_level);
+
+    // Luodaan jokaiselle riville ensin TR elementti alkuun
+    const tr = document.createElement("tr");
+
+    // luodaan soluja mihin tiedot
+    const td1 = document.createElement("td");
+    td1.innerText = element.username;
+
+    tr.appendChild(td1);
+    tbody.appendChild(tr);
+
+    const td2 = document.createElement("td");
+    td2.innerText = element.user_level;
+
+    const td3 = document.createElement("td");
+    const button1 = document.createElement("button");
+    button1.className = "check";
+    button1.setAttribute("data-id", element.user_id);
+    button1.innerText = "Info";
+    td3.appendChild(button1);
+
+    button1.addEventListener("click", getUser);
+
+    const td4 = document.createElement("td");
+    const button2 = document.createElement("button");
+    button2.className = "del";
+    button2.setAttribute("data-id", element.user_id);
+    button2.innerText = "Delete";
+    td4.appendChild(button2);
+
+    button2.addEventListener("click", deleteUser);
+
+    const td5 = document.createElement("td");
+    td5.innerText = element.user_id;
+
+    tr.appendChild(td1);
+    tr.appendChild(td2);
+    tr.appendChild(td3);
+    tr.appendChild(td4);
+    tr.appendChild(td5);
+
     tbody.appendChild(tr);
   });
 }
 
-async function openEditModal(userId) {
-  const url = `http://localhost:3000/api/users/${userId}`;
-  const token = localStorage.getItem('token');
-  const options = {
-    method: 'GET',
-    headers: {
-      'Authorization': 'Bearer ' + token,
-    },
-  };
-
-  const user = await fetchData(url, options);
-  const modal = document.getElementById('editUserModal');
-  document.getElementById('userId').value = user.user_id;
-  document.getElementById('username').value = user.username;
-  document.getElementById('userlevel').value = user.user_level;
-  modal.showModal();
+function getUser() {
+  console.log("Haet tietoa");
 }
 
-async function updateUserData() {
-  const userId = document.getElementById('userId').value;
-  const updatedUser = {
-    username: document.getElementById('username').value,
-    user_level: document.getElementById('userlevel').value,
-  };
+async function deleteUser(evt) {
+  console.log("deletoit tietoa");
+  console.log(evt);
 
-  const url = `http://localhost:3000/api/users/${userId}`;
-  const token = localStorage.getItem('token');
+  // tapa 1, haetaan arvo tutkimalla eventtiä
+  const id = evt.target.attributes["data-id"].value;
+  console.log(id);
+
+  // tapa 2 haetaan "viereinen elementti"
+  const id2 = evt.target.parentElement.nextElementSibling.textContent;
+  console.log("toinen tapa", id2);
+
+  const url = `http://localhost:3000/api/users/${id}`;
+  let token = localStorage.getItem('token');
+
   const options = {
-    method: 'PUT',
+    method: "DELETE",
     headers: {
-      'Authorization': 'Bearer ' + token,
-      'Content-Type': 'application/json',
+      Authorization: "Bearer: " + token,
     },
-    body: JSON.stringify(updatedUser),
   };
-
-  await fetchData(url, options);
-  document.getElementById('editUserModal').close();
-  getUsers();
-}
-
-async function deleteUser(userId) {
-  const confirmed = confirm('Are you sure you want to delete this user?');
-  if (!confirmed) {
-    return;
+  const answer = confirm(
+    `Oletko varma että haluat poistaa käyttäjän ID: ${id}`
+  );
+  if (answer) {
+    fetchData(url, options).then((data) => {
+      console.log(data);
+      getUsers();
+    });
   }
-
-  const url = `http://localhost:3000/api/users/${userId}`;
-  const token = localStorage.getItem('token');
-  const options = {
-    method: 'DELETE',
-    headers: {
-      'Authorization': 'Bearer ' + token,
-    },
-  };
-
-  await fetchData(url, options);
-  getUsers();
 }
 
 async function showUserName() {
-  // Implement if needed
+  // 1. hae käyttäjän tiedot localstoragesta
+  // let name = localStorage.getItem('name');
+  // document.getElementById('name').innerHTML = name;
+
+  // 2. hae api/auth/me endpointin kautta
+  const url = "http://localhost:3000/api/auth/me";
+  const muntokeni = localStorage.getItem("token");
+  console.log("Tämä on haettu LocalStoragesta", muntokeni);
+
+  const options = {
+    method: "GET",
+    headers: {
+      Authorization: "Bearer: " + muntokeni,
+    },
+  };
+  fetchData(url, options).then((data) => {
+    document.getElementById("name").innerHTML = data.user.username;
+  });
 }
+
+showUserName();
+
+// 1. testataan ensin YKSI endpoint joka ei vaadi tokenia
+// 2. uudelleen strukturoidaan koodi jotta se on modulaarisempi
+
+// tämä toimi ennen autentikaatiota, nyt tarvitsee tokenin, siistitään pian!
+// sivuille on nyt myös lisätty navigaatio html sivuun, sekä siihen sopiva CSS koodi, hae siis uusi HTML ja UUSI CSS ennen kun aloitat
+
+document.addEventListener("DOMContentLoaded", function () {
+  const form = document.getElementById('user-form');
+  const updateUserButton = document.getElementById('update-user');
+  const token = localStorage.getItem("token");
+  const userId = localStorage.getItem("id");
+
+  fetch(`http://127.0.0.1:3000/api/users/${userId}`, {
+    method: 'GET',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+    },
+  })
+  .then(response => response.json())
+  .then(user => {
+    form.username.value = user.username || '';
+    form.email.value = user.email || '';
+  })
+  .catch(error => {
+    console.error('Error fetching user data:', error);
+  });
+
+  updateUserButton.addEventListener('click', function() {
+    const userData = {
+      username: form.username.value,
+      password: form.password.value,
+      email: form.email.value,
+      user_id: userId
+    };
+    console.log('userdata',  userData);
+
+    fetch('http://localhost:3000/api/users/', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+      body: JSON.stringify(userData),
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log('User updated:', data);
+      alert('User updated successfully!');
+    })
+    .catch(error => {
+      console.error('Error updating user:', error);
+      alert('Failed to update user.');
+    });
+  });
+});

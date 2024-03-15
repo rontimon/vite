@@ -2,11 +2,6 @@
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
-  /* color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424; */
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -23,9 +18,6 @@ a:hover {
 }
 
 body {
-  margin: 0;
-  /* display: flex; */
-  /* place-items: center; */
   min-width: 320px;
   min-height: 100vh;
 }
@@ -35,15 +27,18 @@ h1 {
   line-height: 1.1;
 }
 
+h3 {
+  border-bottom: 1px solid rgb(184, 15, 117);
+}
+
 #app {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
-  color: rgb(231, 11, 47);
 }
 
-/* .logo {
+.logo {
   height: 6em;
   padding: 1.5em;
   will-change: filter;
@@ -62,7 +57,7 @@ h1 {
 
 .read-the-docs {
   color: #888;
-} */
+}
 
 button {
   border-radius: 8px;
@@ -71,145 +66,76 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: greenyellow;
   cursor: pointer;
   transition: border-color 0.25s;
+  background-color: rgb(204, 211, 211);
 }
+
 button:hover {
-  border-color: #646cff;
+  border-color: #878086;
+  background-color: rgb(139, 136, 138);
 }
+
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
-
-/* @media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
-} */
-
 .show_joke {
-  margin: 20px 0;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  background-color: #f9f9f9;
-  font-family: Arial, sans-serif;
-  color: #333;
+  background-color: rgb(170, 179, 179);
 }
-
-/* .chuck {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  background-color: #007bff;
-  color: white;
-  cursor: pointer;
-  font-family: Arial, sans-serif;
-} */
-
-/* .chuck:hover {
-  background-color: #0056b3;
-} */
 
 #cards {
   min-height: 40px;
-  
+  /* background-color: #920550; */
 }
+
 
 figurecaption {
   display: block;
-  background-color: greenyellow;
+  background-color: #f4cce1;
 }
 
-/* Kortti CSS */
-
-.kortti-area {
-  display: flex;
-  flex-wrap: wrap; /* Mahdollistaa korttien siirtymisen seuraavalle riville */
-  gap: 20px; /* Väli korttien välillä */
-  justify-content: flex-start; /* Asettaa kortit tasaisesti vasemmalta alkaen */
-  align-items: flex-start; /* Asettaa kortit yläreunaan linjaan, jos ne ovat eri korkeuksia */
+figcaption {
+  background-color: #f4cce1;
 }
 
-.kortti {
+.card-area {
   display: flex;
-  border: 1px solid #ccc;
+  justify-content: space-around; 
+  /* padding: 10px; */
+}
+
+.card {
+  max-width: 600px;
+  margin: 10px;
   border-radius: 8px;
-  overflow: hidden;
-  margin-bottom: 20px; /* Lisää tilaa korttien välille vertikaalisesti */
-  width: calc(50% - 20px); /* Asettaa kortin leveyden kahden kortin leveydeksi sisältäen gapin */
-  max-width: 500px; /* Maksimileveys kortille */
-}
-
-.kortti-img {
-  flex: 0 0 200px; /* Kuvan leveys on kiinteä ja vastaa alkuperäisen kuvan leveyttä */
-  overflow: hidden; /* Estää kuvan ulottumisen yli kortin reunojen */
-}
-
-.kortti-img img {
-  display: block;
-  width: 300px;
-}
-
-.card-diary {
-  padding-left: 20px;
-}
-
-.kortti > .kortti {
-  flex: 1; 
-  padding: 10px;
   display: flex;
-  flex-direction: column;
-  justify-content: space-between; /* Tasainen tila sisällön välillä */
+  flex-direction: row;
+  align-items: stretch;
+  
 }
 
-.kortti > .kortti h3 {
-  margin: 0;
-  color: #333;
-  font-size: 1.25rem; /* Säädä otsikon fonttikokoa tarpeen mukaan */
+.card-content {
+  display: flex;
+  flex:1;
 }
 
-.kortti > .kortti p {
-  color: #666;
-  flex-grow: 1; /* Antaa kuvaukselle tilaa kasvaa */
+.card-img {
+  flex: 1;
+  position: relative;
+  height: 100%;
 }
 
-.btn-read-more {
-  align-self: flex-start;
-  padding: 10px 15px;
-  background-color: #009879; /* Palautetaan alkuperäinen taustaväri */
-  color: white; /* Tekstin väri */
-  text-decoration: none; /* Poistaa linkin alleviivauksen */
-  border-radius: 5px; /* Pyöristää reunat */
+.card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
 }
 
-.btn-read-more:hover {
-  background-color: #007b5f;
-}
-
-/* Responsiivisuus: Kortit menevät allekkain pienemmällä näytöllä */
-@media (max-width: 1100px) {
-  .kortti {
-    width: 100%; /* Kortit ottavat koko leveyden pienemmässä näytössä */
-    max-width: none; /* Poistaa maksimileveyden pienemmässä näytössä */
-  }
-
-  .kortti-img {
-    width: 100%; /* Kuvan leveys on 100% kortin leveydestä */
-  }
-}
-
-
-#gympic {
-  display: block;
-  width: 200px;
+.card-text {
+  flex: 2;
+  padding-left: 20px;
 }

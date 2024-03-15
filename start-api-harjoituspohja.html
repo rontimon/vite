@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="styles1.css">
+    <link rel="stylesheet" href="styless.css" />
     <title>Vite App</title>
   </head>
   <body>
@@ -106,8 +106,6 @@
           nappulasta 'post'. Huomio, että PUT metodi toimii vain kirjatuneen käyttäjän osalta. Eli voit vain muokata käyttäjää, millä olet parhaimmillaan kirjautuneena. Jatkossa olisi fiksua hakea käyttäjän tiedot suoraan formien INPUT kenttiin.
         </p>
 
-
-
         <pre><code>
           
           # Update user's own data (requires token)
@@ -121,33 +119,17 @@
           }
           </code></pre>
 
-
-          <!-- tänne formi -->
-          <!-- https://www.w3schools.com/css/css_form.asp -->
-          <!-- https://www.w3schools.com/css/tryit.asp?filename=trycss_form_padding -->
-
-          <!-- formin avulla testaamme create ja update user reittejä -->
-
-          <form class="addform">
-            <!-- Muut formin osat tässä, jos niitä on -->
-          
-            <dialog id="editUserModal">
-              <form id="editUserForm" method="dialog">
-                <label for="username">Käyttäjänimi:</label>
-                <input type="text" id="username" name="username" required>
-                
-                <label for="userlevel">Käyttäjätaso:</label>
-                <input type="text" id="userlevel" name="userlevel" required>
-                
-                <input type="hidden" id="userId" name="userId">
-                
-                <button type="submit">Tallenna muutokset</button>
-                <button type="button" id="closeModal">Peruuta</button>
-              </form>
-            </dialog>
+          <form class="addform" id="user-form">
+            <h3>Edit Your Userdata</h3>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required />
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required />
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required />
+            <button type="button" id="update-user">Update User</button>
           </form>
           
-        </form>
       </div>
     </div>
 
